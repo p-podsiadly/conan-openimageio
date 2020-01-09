@@ -1,3 +1,5 @@
+[ ![Download](https://api.bintray.com/packages/ppodsiadly/conan/openimageio%3Appodsiadly/images/download.svg) ](https://bintray.com/ppodsiadly/conan/openimageio%3Appodsiadly/_latestVersion)
+
 [![Build status](https://ci.appveyor.com/api/projects/status/x2xag9l8bsh0jgd2?svg=true)](https://ci.appveyor.com/project/p-podsiadly/conan-openimageio)
 [![Build status](https://api.travis-ci.org/p-podsiadly/conan-openimageio.svg)](https://travis-ci.org/p-podsiadly/conan-openimageio)
 
