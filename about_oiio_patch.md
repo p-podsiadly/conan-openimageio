@@ -24,6 +24,8 @@ This file documents these changes.
 
   * `checked_find_package (Qt5 COMPONENTS ${qt5_modules})` can be removed. This speeds up build.
 
+  * Instead of find package `PNG`, find `libpng` (using conan-generated Find module)
+
 * `src/jpeg2000.imageio/CMakeLists.txt`:
 
   * Variable prefixes `OPENJPEG_` need to be replaced with `OpenJPEG_`. OIIO's Find module uses `OPENEXR_` prefix while conan-generated module uses `OpenEXR_`.
