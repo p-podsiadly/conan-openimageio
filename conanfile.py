@@ -16,13 +16,15 @@ class OpenImageIOConan(ConanFile):
     options = {
         "shared": [True, False],
         "with_webp": [True, False],
-        "with_jpeg2000": [True, False]
+        "with_jpeg2000": [True, False],
+        "with_tools": [True, False]
     }
 
     default_options = {
         "shared": False,
         "with_webp": True,
-        "with_jpeg2000": True
+        "with_jpeg2000": True,
+        "with_tools": True
     }
 
     generators = "cmake", "cmake_find_package"
@@ -62,7 +64,7 @@ class OpenImageIOConan(ConanFile):
         cmake.definitions["USE_OPENGL"] = False
         cmake.definitions["USE_QT"] = False
         cmake.definitions["LINKSTATIC"] = False
-        cmake.definitions["OIIO_BUILD_TOOLS"] = False
+        cmake.definitions["OIIO_BUILD_TOOLS"] = self.options.with_tools
         cmake.definitions["OIIO_BUILD_TESTS"] = False
         cmake.definitions["BUILD_DOCS"] = False
         cmake.definitions["INSTALL_FONTS"] = False
