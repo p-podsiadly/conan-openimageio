@@ -93,3 +93,6 @@ class OpenImageIOConan(ConanFile):
         
         if not self.options.shared:
             self.cpp_info.defines.append("OIIO_STATIC_DEFINE")
+
+        if self.settings.os == "Linux":
+            self.cpp_info.system_libs.append("dl")
