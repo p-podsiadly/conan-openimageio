@@ -1,5 +1,5 @@
 diff --git a/oiio-Release-2.1.10.0/CMakeLists.txt b/source_subfolder/CMakeLists.txt
-index 94627c5..934d074 100644
+index 94627c5..8e49941 100644
 --- a/oiio-Release-2.1.10.0/CMakeLists.txt
 +++ b/source_subfolder/CMakeLists.txt
 @@ -6,6 +6,8 @@ cmake_minimum_required (VERSION 3.12)
@@ -11,6 +11,15 @@ index 94627c5..934d074 100644
  set (PROJ_NAME OIIO)    # short name, caps
  string (TOLOWER ${PROJ_NAME} PROJ_NAME_LOWER)  # short name lower case
  string (TOUPPER ${PROJ_NAME} PROJ_NAME_UPPER)  # short name upper case
+@@ -155,7 +157,7 @@ if (OIIO_BUILD_TOOLS AND NOT BUILD_OIIOUTIL_ONLY)
+     add_subdirectory (src/iinfo)
+     add_subdirectory (src/maketx)
+     add_subdirectory (src/oiiotool)
+-    add_subdirectory (src/testtex)
++    # add_subdirectory (src/testtex)
+     add_subdirectory (src/iv)
+ endif ()
+ 
 diff --git a/oiio-Release-2.1.10.0/src/cmake/compiler.cmake b/source_subfolder/src/cmake/compiler.cmake
 index 5de9625..d380622 100644
 --- a/oiio-Release-2.1.10.0/src/cmake/compiler.cmake
