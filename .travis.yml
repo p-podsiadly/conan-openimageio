@@ -1,3 +1,6 @@
+env:
+   CONAN_USERNAME: "ppodsiadly"
+   CONAN_UPLOAD: "https://api.bintray.com/conan/ppodsiadly/conan"
 linux: &linux
    os: linux
    sudo: required
