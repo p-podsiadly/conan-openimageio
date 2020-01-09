@@ -1,3 +1,6 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/x2xag9l8bsh0jgd2?svg=true)](https://ci.appveyor.com/project/p-podsiadly/conan-openimageio)
+
+
 ## Conan package recipe for *openimageio*
 
 OpenImageIO is a library for reading and writing images, and a bunch of related classes, utilities, and applications.
@@ -9,7 +12,7 @@ The packages generated with this **conanfile** can be found on [Bintray](https:/
 
 ### Basic setup
 
-    $ conan install openexr/2.3.0@conan/stable
+    $ conan install openimageio/2.1.10.0@ppodsiadly/testing
 
 ### Project setup
 
