@@ -15,14 +15,14 @@ The packages generated with this **conanfile** can be found on [Bintray](https:/
 
 ### Basic setup
 
-    $ conan install openimageio/2.1.10.0@ppodsiadly/testing
+    $ conan install openimageio/2.1.10.0@ppodsiadly/stable
 
 ### Project setup
 
 If you handle multiple dependencies in your project is better to add a *conanfile.txt*
 
     [requires]
-    openimageio/2.1.10.0@ppodsiadly/testing
+    openimageio/2.1.10.0@ppodsiadly/stable
 
     [generators]
     cmake
@@ -38,7 +38,7 @@ Note: It is recommended that you run conan install from a build directory and no
 
 The following command both runs all the steps of the conan file, and publishes the package to the local system cache.  This includes downloading dependencies from "build_requires" and "requires" , and then running the build() method.
 
-    $ conan create . ppodsiadly/testing
+    $ conan create . ppodsiadly/stable
 
 
 ### Available Options
