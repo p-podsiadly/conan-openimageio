@@ -1,0 +1,188 @@
+diff --git a/oiio-Release-2.1.10.0/CMakeLists.txt b/source_subfolder/CMakeLists.txt
+index 94627c5..934d074 100644
+--- a/oiio-Release-2.1.10.0/CMakeLists.txt
++++ b/source_subfolder/CMakeLists.txt
+@@ -6,6 +6,8 @@ cmake_minimum_required (VERSION 3.12)
+ project (OpenImageIO VERSION 2.1.10.0
+          HOMEPAGE_URL "https://openimageio.org"
+          LANGUAGES CXX C)
++include(${CMAKE_CURRENT_BINARY_DIR}/conanbuildinfo.cmake)
++conan_basic_setup()
+ set (PROJ_NAME OIIO)    # short name, caps
+ string (TOLOWER ${PROJ_NAME} PROJ_NAME_LOWER)  # short name lower case
+ string (TOUPPER ${PROJ_NAME} PROJ_NAME_UPPER)  # short name upper case
+diff --git a/oiio-Release-2.1.10.0/src/cmake/compiler.cmake b/source_subfolder/src/cmake/compiler.cmake
+index 5de9625..d380622 100644
+--- a/oiio-Release-2.1.10.0/src/cmake/compiler.cmake
++++ b/source_subfolder/src/cmake/compiler.cmake
+@@ -167,6 +167,7 @@ endif ()
+ if (MSVC)
+     # Microsoft specific options
+     add_compile_options (/W1)
++string(REPLACE " /W3 " " " CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+     add_definitions (-D_CRT_SECURE_NO_DEPRECATE)
+     add_definitions (-D_CRT_SECURE_NO_WARNINGS)
+     add_definitions (-D_CRT_NONSTDC_NO_WARNINGS)
+diff --git a/oiio-Release-2.1.10.0/src/cmake/externalpackages.cmake b/source_subfolder/src/cmake/externalpackages.cmake
+index 2f4f7ce..2014e03 100644
+--- a/oiio-Release-2.1.10.0/src/cmake/externalpackages.cmake
++++ b/source_subfolder/src/cmake/externalpackages.cmake
+@@ -121,10 +121,10 @@ option (BUILD_MISSING_DEPS "Try to download and build any missing dependencies"
+ ###########################################################################
+ # Boost setup
+ if (LINKSTATIC)
+-    set (Boost_USE_STATIC_LIBS ON)
++    # set (Boost_USE_STATIC_LIBS ON)
+ else ()
+     if (MSVC)
+-        add_definitions (-DBOOST_ALL_DYN_LINK=1)
++        # add_definitions (-DBOOST_ALL_DYN_LINK=1)
+     endif ()
+ endif ()
+ if (BOOST_CUSTOM)
+@@ -148,13 +148,14 @@ else ()
+ endif ()
+ 
+ # On Linux, Boost 1.55 and higher seems to need to link against -lrt
+-if (CMAKE_SYSTEM_NAME MATCHES "Linux"
+-      AND ${Boost_VERSION} VERSION_GREATER_EQUAL 105500)
+-    list (APPEND Boost_LIBRARIES "rt")
+-endif ()
++# Disabled for conan build
++# if (CMAKE_SYSTEM_NAME MATCHES "Linux"
++#        AND ${Boost_VERSION} VERSION_GREATER_EQUAL 105500)
++#     list (APPEND Boost_LIBRARIES "rt")
++# endif ()
+ 
+-include_directories (SYSTEM "${Boost_INCLUDE_DIRS}")
+-link_directories ("${Boost_LIBRARY_DIRS}")
++find_package(Boost REQUIRED)
++link_libraries(Boost::Boost)
+ 
+ # end Boost setup
+ ###########################################################################
+@@ -171,14 +172,14 @@ checked_find_package (TIFF 3.0 REQUIRED)
+ # IlmBase & OpenEXR
+ checked_find_package (OpenEXR 2.0 REQUIRED)
+ # We use Imath so commonly, may as well include it everywhere.
+-include_directories ("${OPENEXR_INCLUDES}" "${ILMBASE_INCLUDES}"
+-                     "${ILMBASE_INCLUDES}/OpenEXR")
++include_directories(${OpenEXR_INCLUDE_DIRS})
++set(OPENEXR_LIBRARIES ${OpenEXR_LIBRARIES})
+ if (CMAKE_COMPILER_IS_CLANG AND OPENEXR_VERSION VERSION_LESS 2.3)
+     # clang C++ >= 11 doesn't like 'register' keyword in old exr headers
+     add_compile_options (-Wno-deprecated-register)
+ endif ()
+ if (MSVC AND NOT LINKSTATIC)
+-    add_definitions (-DOPENEXR_DLL) # Is this needed for new versions?
++    # add_definitions (-DOPENEXR_DLL) # Is this needed for new versions?
+ endif ()
+ 
+ 
+@@ -254,7 +255,7 @@ if (OPENGL_FOUND)
+     list (APPEND qt5_modules OpenGL)
+ endif ()
+ option (USE_QT "Use Qt if found" ON)
+-checked_find_package (Qt5 COMPONENTS ${qt5_modules})
++# checked_find_package (Qt5 COMPONENTS ${qt5_modules})
+ if (USE_QT AND NOT Qt5_FOUND AND APPLE)
+     message (STATUS "  If you think you installed qt5 with Homebrew and it still doesn't work,")
+     message (STATUS "  try:   export PATH=/usr/local/opt/qt5/bin:$PATH")
+diff --git a/oiio-Release-2.1.10.0/src/cmake/oiio_macros.cmake b/source_subfolder/src/cmake/oiio_macros.cmake
+index 9e54f67..c2545b6 100644
+--- a/oiio-Release-2.1.10.0/src/cmake/oiio_macros.cmake
++++ b/source_subfolder/src/cmake/oiio_macros.cmake
+@@ -184,6 +184,8 @@ endmacro ()
+ # the user where to find such tests.
+ #
+ macro (oiio_add_tests)
++endmacro ()
++macro (_DISABLED_oiio_add_tests)
+     cmake_parse_arguments (_ats "" "" "URL;IMAGEDIR;LABEL;FOUNDVAR;TESTNAME" ${ARGN})
+        # Arguments: <prefix> <options> <one_value_keywords> <multi_value_keywords> args...
+     set (_ats_testdir "${OIIO_TESTSUITE_IMAGEDIR}/${_ats_IMAGEDIR}")
+diff --git a/oiio-Release-2.1.10.0/src/jpeg2000.imageio/CMakeLists.txt b/source_subfolder/src/jpeg2000.imageio/CMakeLists.txt
+index 7bc6adb..55d33b0 100644
+--- a/oiio-Release-2.1.10.0/src/jpeg2000.imageio/CMakeLists.txt
++++ b/source_subfolder/src/jpeg2000.imageio/CMakeLists.txt
+@@ -3,7 +3,7 @@
+ # https://github.com/OpenImageIO/oiio/blob/master/LICENSE.md
+ 
+ if (OPENJPEG_FOUND)
+-    if (${OPENJPEG_VERSION} VERSION_LESS 2.0)
++    if (${OpenJPEG_VERSION} VERSION_LESS 2.0)
+         # Old OpenJpeg 1.5. Remove this eventually.
+         #
+         # For reasons I don't understand, OpenJPEG 1.5 fails imageinout_test
+@@ -13,15 +13,15 @@ if (OPENJPEG_FOUND)
+         # for now, I'm just disabling jpeg2000 support for that combination.
+         if (EMBEDPLUGINS)
+             add_oiio_plugin (jpeg2000input-v1.cpp jpeg2000output-v1.cpp
+-                             INCLUDE_DIRS ${OPENJPEG_INCLUDES}
+-                             LINK_LIBRARIES ${OPENJPEG_LIBRARIES}
++                             INCLUDE_DIRS ${OpenJPEG_INCLUDES}
++                             LINK_LIBRARIES ${OpenJPEG_LIBRARIES}
+                              DEFINITIONS "-DUSE_OPENJPEG")
+         endif()
+     else ()
+         # OpenJpeg 2.x. Eventually this should be the only one we need.
+         add_oiio_plugin (jpeg2000input.cpp jpeg2000output.cpp
+-                         INCLUDE_DIRS ${OPENJPEG_INCLUDES}
+-                         LINK_LIBRARIES ${OPENJPEG_LIBRARIES}
++                         INCLUDE_DIRS ${OpenJPEG_INCLUDES}
++                         LINK_LIBRARIES ${OpenJPEG_LIBRARIES}
+                          DEFINITIONS "-DUSE_OPENJPEG")
+     endif ()
+ else()
+diff --git a/oiio-Release-2.1.10.0/src/libOpenImageIO/CMakeLists.txt b/source_subfolder/src/libOpenImageIO/CMakeLists.txt
+index ef05fec..8bcecc1 100644
+--- a/oiio-Release-2.1.10.0/src/libOpenImageIO/CMakeLists.txt
++++ b/source_subfolder/src/libOpenImageIO/CMakeLists.txt
+@@ -137,7 +137,7 @@ endif ()
+ target_link_libraries (OpenImageIO
+         PUBLIC
+             ${ILMBASE_LIBRARIES}
+-            ${OPENEXR_LIBRARIES}
++            OpenEXR::OpenEXR
+             ${OpenCV_LIBRARIES}
+         PRIVATE
+             ${SANITIZE_LIBRARIES}
+diff --git a/oiio-Release-2.1.10.0/src/libutil/CMakeLists.txt b/source_subfolder/src/libutil/CMakeLists.txt
+index f5548bc..303e5ba 100644
+--- a/oiio-Release-2.1.10.0/src/libutil/CMakeLists.txt
++++ b/source_subfolder/src/libutil/CMakeLists.txt
+@@ -11,7 +11,7 @@ target_include_directories (OpenImageIO_Util
+         )
+ target_link_libraries (OpenImageIO_Util
+         PUBLIC
+-            ${ILMBASE_LIBRARIES}
++            OpenEXR::OpenEXR
+         PRIVATE
+             ${SANITIZE_LIBRARIES}
+             ${Boost_LIBRARIES}
+diff --git a/oiio-Release-2.1.10.0/src/nuke/txReader/CMakeLists.txt b/source_subfolder/src/nuke/txReader/CMakeLists.txt
+index 71e6313..4d62dc1 100644
+--- a/oiio-Release-2.1.10.0/src/nuke/txReader/CMakeLists.txt
++++ b/source_subfolder/src/nuke/txReader/CMakeLists.txt
+@@ -9,7 +9,7 @@ if (WIN32)
+     target_compile_definitions (txReader PRIVATE FN_OS_WINDOWS USE_GLEW)
+     set_target_properties (txReader PROPERTIES
+         PREFIX ""
+-        COMPILE_OPTIONS /wd4251 /W3 /O2 /MD /GL /GR /GF
++        COMPILE_OPTIONS /wd4251 /O2 /MD /GL /GR /GF
+         LINK_FLAGS "/machine:x64 /SUBSYSTEM:WINDOWS /dll")
+ elseif (APPLE)
+     target_link_libraries (txReader PRIVATE GLEW)
+diff --git a/oiio-Release-2.1.10.0/src/nuke/txWriter/CMakeLists.txt b/source_subfolder/src/nuke/txWriter/CMakeLists.txt
+index 1405d63..a3b50fe 100644
+--- a/oiio-Release-2.1.10.0/src/nuke/txWriter/CMakeLists.txt
++++ b/source_subfolder/src/nuke/txWriter/CMakeLists.txt
+@@ -12,7 +12,7 @@ if (WIN32)
+     target_compile_definitions (txWriter PRIVATE FN_OS_WINDOWS USE_GLEW)
+     set_target_properties (txWriter PROPERTIES
+         PREFIX ""
+-        COMPILE_OPTIONS /wd4251 /W3 /O2 /MD /GL /GR /GF
++        COMPILE_OPTIONS /wd4251 /O2 /MD /GL /GR /GF
+         LINK_FLAGS "/machine:x64 /SUBSYSTEM:WINDOWS /dll")
+ elseif (APPLE)
+     target_link_libraries (txWriter PRIVATE GLEW)
