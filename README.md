@@ -1,4 +1,5 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/x2xag9l8bsh0jgd2?svg=true)](https://ci.appveyor.com/project/p-podsiadly/conan-openimageio)
+[![Build status](https://api.travis-ci.org/p-podsiadly/conan-openimageio.svg)](https://travis-ci.org/p-podsiadly/conan-openimageio)
 
 
 ## Conan package recipe for *openimageio*
