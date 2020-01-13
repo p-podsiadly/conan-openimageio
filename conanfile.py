@@ -70,6 +70,21 @@ class OpenImageIOConan(ConanFile):
         cmake.definitions["INSTALL_FONTS"] = False
         cmake.definitions["USE_PYTHON"] = False
 
+        cmake.definitions["USE_FREETYPE"] = False
+        cmake.definitions["USE_HDF5"] = False
+        cmake.definitions["USE_OPENCOLORIO"] = False
+        cmake.definitions["USE_OPENCV"] = False
+        cmake.definitions["USE_TBB"] = False
+        cmake.definitions["USE_DCMTK"] = False
+        cmake.definitions["USE_FFMPEG"] = False
+        cmake.definitions["USE_GIF"] = False
+        cmake.definitions["USE_LIBHEIF"] = False
+        cmake.definitions["USE_LIBRAW"] = False
+        cmake.definitions["USE_OPENJPEG"] = self.options.with_jpeg2000
+        cmake.definitions["USE_PTEX"] = False
+        cmake.definitions["USE_WEBP"] = self.options.with_webp
+        cmake.definitions["USE_NUKE"] = False
+
         cmake.configure(source_folder=self._source_subfolder)
         
         return cmake
