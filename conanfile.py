@@ -103,6 +103,9 @@ class OpenImageIOConan(ConanFile):
 
     def package_info(self):
 
+        self.cpp_info.names["cmake_find_package"] = "OpenImageIO"
+        self.cpp_info.names["cmake_find_package_multi"] = "OpenImageIO"
+
         self.cpp_info.libs = ["OpenImageIO", "OpenImageIO_Util"]
         
         if not self.options.shared:
