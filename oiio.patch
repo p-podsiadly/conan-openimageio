@@ -1,5 +1,5 @@
 diff --git a/oiio-Release-2.1.10.0/CMakeLists.txt b/source_subfolder/CMakeLists.txt
-index 94627c5..8e49941 100644
+index 94627c5..3a3c8b7 100644
 --- a/oiio-Release-2.1.10.0/CMakeLists.txt
 +++ b/source_subfolder/CMakeLists.txt
 @@ -6,6 +6,8 @@ cmake_minimum_required (VERSION 3.12)
@@ -20,6 +20,15 @@ index 94627c5..8e49941 100644
      add_subdirectory (src/iv)
  endif ()
  
+@@ -460,7 +462,7 @@ if (WIN32)
+     set(CPACK_PACKAGE_EXECUTABLES "iv" "iv - Image Viewer")
+ #    set(CPACK_CREATE_DESCTOP_LINKS "iv" "iv - Image Viewer")
+     set(CPACK_NSIS_MODIFY_PATH ON)
+-    include (InstallRequiredSystemLibraries)
++    # include (InstallRequiredSystemLibraries)
+ endif ()
+ set (CPACK_SOURCE_PACKAGE_FILE_NAME ${PROJECT_NAME}-${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}-source)
+ #set (CPACK_SOURCE_STRIP_FILES Do we need this?)
 diff --git a/oiio-Release-2.1.10.0/src/cmake/compiler.cmake b/source_subfolder/src/cmake/compiler.cmake
 index 5de9625..d380622 100644
 --- a/oiio-Release-2.1.10.0/src/cmake/compiler.cmake
@@ -33,7 +42,7 @@ index 5de9625..d380622 100644
      add_definitions (-D_CRT_SECURE_NO_WARNINGS)
      add_definitions (-D_CRT_NONSTDC_NO_WARNINGS)
 diff --git a/oiio-Release-2.1.10.0/src/cmake/externalpackages.cmake b/source_subfolder/src/cmake/externalpackages.cmake
-index 2f4f7ce..1e3a6e8 100644
+index 2f4f7ce..ae31327 100644
 --- a/oiio-Release-2.1.10.0/src/cmake/externalpackages.cmake
 +++ b/source_subfolder/src/cmake/externalpackages.cmake
 @@ -121,10 +121,10 @@ option (BUILD_MISSING_DEPS "Try to download and build any missing dependencies"
@@ -67,16 +76,20 @@ index 2f4f7ce..1e3a6e8 100644
  endif ()
  
  
-@@ -233,7 +233,7 @@ checked_find_package (Field3D
+@@ -233,7 +233,11 @@ checked_find_package (Field3D
  checked_find_package (GIF 4)
  checked_find_package (Libheif 1.3)  # For HEIF/HEIC format
  checked_find_package (LibRaw)
 -checked_find_package (OpenJpeg)
 +checked_find_package (OpenJPEG)
++set(OPENJPEG_FOUND ${OpenJPEG_FOUND})
++set(OPENJPEG_VERSION ${OpenJPEG_VERSION})
++set(OPENJPEG_INCLUDES ${OpenJPEG_INCLUDES})
++set(OPENJPEG_LIBRARIES ${OpenJPEG_LIBRARIES})
  checked_find_package (OpenVDB 5.0
                     DEPS         TBB
                     DEFINITIONS  -DUSE_OPENVDB=1)
-@@ -254,7 +254,7 @@ if (OPENGL_FOUND)
+@@ -254,7 +258,7 @@ if (OPENGL_FOUND)
      list (APPEND qt5_modules OpenGL)
  endif ()
  option (USE_QT "Use Qt if found" ON)
@@ -98,41 +111,6 @@ index 9e54f67..c2545b6 100644
      cmake_parse_arguments (_ats "" "" "URL;IMAGEDIR;LABEL;FOUNDVAR;TESTNAME" ${ARGN})
         # Arguments: <prefix> <options> <one_value_keywords> <multi_value_keywords> args...
      set (_ats_testdir "${OIIO_TESTSUITE_IMAGEDIR}/${_ats_IMAGEDIR}")
-diff --git a/oiio-Release-2.1.10.0/src/jpeg2000.imageio/CMakeLists.txt b/source_subfolder/src/jpeg2000.imageio/CMakeLists.txt
-index 7bc6adb..2b7866e 100644
---- a/oiio-Release-2.1.10.0/src/jpeg2000.imageio/CMakeLists.txt
-+++ b/source_subfolder/src/jpeg2000.imageio/CMakeLists.txt
-@@ -2,8 +2,8 @@
- # SPDX-License-Identifier: BSD-3-Clause
- # https://github.com/OpenImageIO/oiio/blob/master/LICENSE.md
- 
--if (OPENJPEG_FOUND)
--    if (${OPENJPEG_VERSION} VERSION_LESS 2.0)
-+if (OpenJPEG_FOUND)
-+    if (${OpenJPEG_VERSION} VERSION_LESS 2.0)
-         # Old OpenJpeg 1.5. Remove this eventually.
-         #
-         # For reasons I don't understand, OpenJPEG 1.5 fails imageinout_test
-@@ -13,15 +13,15 @@ if (OPENJPEG_FOUND)
-         # for now, I'm just disabling jpeg2000 support for that combination.
-         if (EMBEDPLUGINS)
-             add_oiio_plugin (jpeg2000input-v1.cpp jpeg2000output-v1.cpp
--                             INCLUDE_DIRS ${OPENJPEG_INCLUDES}
--                             LINK_LIBRARIES ${OPENJPEG_LIBRARIES}
-+                             INCLUDE_DIRS ${OpenJPEG_INCLUDES}
-+                             LINK_LIBRARIES ${OpenJPEG_LIBRARIES}
-                              DEFINITIONS "-DUSE_OPENJPEG")
-         endif()
-     else ()
-         # OpenJpeg 2.x. Eventually this should be the only one we need.
-         add_oiio_plugin (jpeg2000input.cpp jpeg2000output.cpp
--                         INCLUDE_DIRS ${OPENJPEG_INCLUDES}
--                         LINK_LIBRARIES ${OPENJPEG_LIBRARIES}
-+                         INCLUDE_DIRS ${OpenJPEG_INCLUDES}
-+                         LINK_LIBRARIES ${OpenJPEG_LIBRARIES}
-                          DEFINITIONS "-DUSE_OPENJPEG")
-     endif ()
- else()
 diff --git a/oiio-Release-2.1.10.0/src/libOpenImageIO/CMakeLists.txt b/source_subfolder/src/libOpenImageIO/CMakeLists.txt
 index ef05fec..8bcecc1 100644
 --- a/oiio-Release-2.1.10.0/src/libOpenImageIO/CMakeLists.txt
