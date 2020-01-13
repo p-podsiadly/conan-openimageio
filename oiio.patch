@@ -33,7 +33,7 @@ index 5de9625..d380622 100644
      add_definitions (-D_CRT_SECURE_NO_WARNINGS)
      add_definitions (-D_CRT_NONSTDC_NO_WARNINGS)
 diff --git a/oiio-Release-2.1.10.0/src/cmake/externalpackages.cmake b/source_subfolder/src/cmake/externalpackages.cmake
-index 2f4f7ce..4e544ae 100644
+index 2f4f7ce..39fb644 100644
 --- a/oiio-Release-2.1.10.0/src/cmake/externalpackages.cmake
 +++ b/source_subfolder/src/cmake/externalpackages.cmake
 @@ -121,10 +121,10 @@ option (BUILD_MISSING_DEPS "Try to download and build any missing dependencies"
@@ -70,14 +70,7 @@ index 2f4f7ce..4e544ae 100644
  
  # end Boost setup
  ###########################################################################
-@@ -165,20 +166,20 @@ link_directories ("${Boost_LIBRARY_DIRS}")
- # that we will not complete the build if they are not found.
- 
- checked_find_package (ZLIB REQUIRED)  # Needed by several packages
--checked_find_package (PNG REQUIRED)
-+checked_find_package (libpng REQUIRED)
- checked_find_package (TIFF 3.0 REQUIRED)
- 
+@@ -171,14 +172,14 @@ checked_find_package (TIFF 3.0 REQUIRED)
  # IlmBase & OpenEXR
  checked_find_package (OpenEXR 2.0 REQUIRED)
  # We use Imath so commonly, may as well include it everywhere.
@@ -126,23 +119,6 @@ index 9e54f67..c2545b6 100644
      cmake_parse_arguments (_ats "" "" "URL;IMAGEDIR;LABEL;FOUNDVAR;TESTNAME" ${ARGN})
         # Arguments: <prefix> <options> <one_value_keywords> <multi_value_keywords> args...
      set (_ats_testdir "${OIIO_TESTSUITE_IMAGEDIR}/${_ats_IMAGEDIR}")
-diff --git a/oiio-Release-2.1.10.0/src/ico.imageio/CMakeLists.txt b/source_subfolder/src/ico.imageio/CMakeLists.txt
-index e661122..903b0ae 100644
---- a/oiio-Release-2.1.10.0/src/ico.imageio/CMakeLists.txt
-+++ b/source_subfolder/src/ico.imageio/CMakeLists.txt
-@@ -2,10 +2,9 @@
- # SPDX-License-Identifier: BSD-3-Clause
- # https://github.com/OpenImageIO/oiio/blob/master/LICENSE.md
- 
--if (PNG_FOUND)
-+if (libpng_FOUND)
-     add_oiio_plugin (icoinput.cpp icooutput.cpp
--                     INCLUDE_DIRS ${PNG_INCLUDE_DIRS} ${ZLIB_INCLUDE_DIRS}
--                     LINK_LIBRARIES ${PNG_LIBRARIES} ${ZLIB_LIBRARIES})
-+                     LINK_LIBRARIES libpng::libpng)
- else ()
-     message (WARNING "libpng not found, so ICO support will not work")
- endif ()
 diff --git a/oiio-Release-2.1.10.0/src/jpeg2000.imageio/CMakeLists.txt b/source_subfolder/src/jpeg2000.imageio/CMakeLists.txt
 index 7bc6adb..2b7866e 100644
 --- a/oiio-Release-2.1.10.0/src/jpeg2000.imageio/CMakeLists.txt
@@ -230,20 +206,3 @@ index 1405d63..a3b50fe 100644
          LINK_FLAGS "/machine:x64 /SUBSYSTEM:WINDOWS /dll")
  elseif (APPLE)
      target_link_libraries (txWriter PRIVATE GLEW)
-diff --git a/oiio-Release-2.1.10.0/src/png.imageio/CMakeLists.txt b/source_subfolder/src/png.imageio/CMakeLists.txt
-index 5ced7e8..e434f43 100644
---- a/oiio-Release-2.1.10.0/src/png.imageio/CMakeLists.txt
-+++ b/source_subfolder/src/png.imageio/CMakeLists.txt
-@@ -2,10 +2,9 @@
- # SPDX-License-Identifier: BSD-3-Clause
- # https://github.com/OpenImageIO/oiio/blob/master/LICENSE.md
- 
--if (PNG_FOUND)
-+if (libpng_FOUND)
-     add_oiio_plugin (pnginput.cpp pngoutput.cpp
--                     INCLUDE_DIRS ${PNG_INCLUDE_DIRS} ${ZLIB_INCLUDE_DIRS}
--                     LINK_LIBRARIES ${PNG_LIBRARIES} ${ZLIB_LIBRARIES})
-+                     LINK_LIBRARIES libpng::libpng)
- else ()
-     message (WARNING "libpng not found, so PNG support will not work")
- endif ()
