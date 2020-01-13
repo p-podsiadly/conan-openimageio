@@ -40,7 +40,7 @@ class OpenImageIOConan(ConanFile):
 
     _source_subfolder = "source_subfolder"
 
-    exports = ["oiio.patch"]
+    exports = ["oiio-*.patch"]
 
     def requirements(self):
 
@@ -55,7 +55,8 @@ class OpenImageIOConan(ConanFile):
         extracted_dir = "oiio-Release-{}".format(self.version)
         os.rename(extracted_dir, self._source_subfolder)
 
-        tools.patch(base_path=self._source_subfolder, patch_file="oiio.patch", strip=1)
+        patch_file = self.conan_data["patches"][self.version]
+        tools.patch(base_path=self._source_subfolder, patch_file=patch_file, strip=1)
 
     def _configure_cmake(self):
         cmake = CMake(self)
