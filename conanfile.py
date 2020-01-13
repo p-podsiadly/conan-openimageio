@@ -4,7 +4,7 @@ import os
 class OpenImageIOConan(ConanFile):
 
     name = "openimageio"
-    version = "2.1.10.0"
+    version = "2.1.10.1"
     description = "OpenImageIO is a library for reading and writing images, and a bunch of related classes, utilities, and applications."
     topics = ["graphics", "images", "vfx"]
     url = "https://github.com/p-podsiadly/conan-openimageio"
