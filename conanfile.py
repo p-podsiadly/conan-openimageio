@@ -70,10 +70,6 @@ class OpenImageIOConan(ConanFile):
         cmake.definitions["INSTALL_FONTS"] = False
         cmake.definitions["USE_PYTHON"] = False
 
-        # When set, OIIO's externalpackages.cmake will not call find_package for Boost.
-        # Instead, we're patching the file to use conan-generated Find module.
-        cmake.definitions["BOOST_CUSTOM"] = True
-
         cmake.configure(source_folder=self._source_subfolder)
         
         return cmake
