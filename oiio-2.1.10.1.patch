@@ -1,8 +1,8 @@
-diff --git a/oiio-Release-2.1.10.0/CMakeLists.txt b/source_subfolder/CMakeLists.txt
-index 94627c5..3a3c8b7 100644
---- a/oiio-Release-2.1.10.0/CMakeLists.txt
+diff --git a/oiio-Release-2.1.10.1/CMakeLists.txt b/source_subfolder/CMakeLists.txt
+index 97b4627..9deabdd 100644
+--- a/oiio-Release-2.1.10.1/CMakeLists.txt
 +++ b/source_subfolder/CMakeLists.txt
-@@ -8,2 +8,4 @@ project (OpenImageIO VERSION 2.1.10.0
+@@ -8,2 +8,4 @@ project (OpenImageIO VERSION 2.1.10.1
           LANGUAGES CXX C)
 +include(${CMAKE_CURRENT_BINARY_DIR}/conanbuildinfo.cmake)
 +conan_basic_setup()
@@ -17,17 +17,17 @@ index 94627c5..3a3c8b7 100644
 -    include (InstallRequiredSystemLibraries)
 +    # include (InstallRequiredSystemLibraries)
  endif ()
-diff --git a/oiio-Release-2.1.10.0/src/cmake/compiler.cmake b/source_subfolder/src/cmake/compiler.cmake
-index 5de9625..d380622 100644
---- a/oiio-Release-2.1.10.0/src/cmake/compiler.cmake
+diff --git a/oiio-Release-2.1.10.1/src/cmake/compiler.cmake b/source_subfolder/src/cmake/compiler.cmake
+index 57f223a..88e4f48 100644
+--- a/oiio-Release-2.1.10.1/src/cmake/compiler.cmake
 +++ b/source_subfolder/src/cmake/compiler.cmake
 @@ -169,2 +169,3 @@ if (MSVC)
      add_compile_options (/W1)
 +string(REPLACE " /W3 " " " CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
      add_definitions (-D_CRT_SECURE_NO_DEPRECATE)
-diff --git a/oiio-Release-2.1.10.0/src/cmake/externalpackages.cmake b/source_subfolder/src/cmake/externalpackages.cmake
-index 2f4f7ce..ae31327 100644
---- a/oiio-Release-2.1.10.0/src/cmake/externalpackages.cmake
+diff --git a/oiio-Release-2.1.10.1/src/cmake/externalpackages.cmake b/source_subfolder/src/cmake/externalpackages.cmake
+index fc30448..0d07e51 100644
+--- a/oiio-Release-2.1.10.1/src/cmake/externalpackages.cmake
 +++ b/source_subfolder/src/cmake/externalpackages.cmake
 @@ -123,6 +123,6 @@ option (BUILD_MISSING_DEPS "Try to download and build any missing dependencies"
  if (LINKSTATIC)
@@ -64,45 +64,52 @@ index 2f4f7ce..ae31327 100644
 -checked_find_package (Qt5 COMPONENTS ${qt5_modules})
 +# checked_find_package (Qt5 COMPONENTS ${qt5_modules})
  if (USE_QT AND NOT Qt5_FOUND AND APPLE)
-diff --git a/oiio-Release-2.1.10.0/src/cmake/oiio_macros.cmake b/source_subfolder/src/cmake/oiio_macros.cmake
+diff --git a/oiio-Release-2.1.10.1/src/cmake/oiio_macros.cmake b/source_subfolder/src/cmake/oiio_macros.cmake
 index 9e54f67..c2545b6 100644
---- a/oiio-Release-2.1.10.0/src/cmake/oiio_macros.cmake
+--- a/oiio-Release-2.1.10.1/src/cmake/oiio_macros.cmake
 +++ b/source_subfolder/src/cmake/oiio_macros.cmake
 @@ -186,2 +186,4 @@ endmacro ()
  macro (oiio_add_tests)
 +endmacro ()
 +macro (_DISABLED_oiio_add_tests)
      cmake_parse_arguments (_ats "" "" "URL;IMAGEDIR;LABEL;FOUNDVAR;TESTNAME" ${ARGN})
-diff --git a/oiio-Release-2.1.10.0/src/libOpenImageIO/CMakeLists.txt b/source_subfolder/src/libOpenImageIO/CMakeLists.txt
-index ef05fec..8bcecc1 100644
---- a/oiio-Release-2.1.10.0/src/libOpenImageIO/CMakeLists.txt
+diff --git a/oiio-Release-2.1.10.1/src/libOpenImageIO/CMakeLists.txt b/source_subfolder/src/libOpenImageIO/CMakeLists.txt
+index e4d3616..c278515 100644
+--- a/oiio-Release-2.1.10.1/src/libOpenImageIO/CMakeLists.txt
 +++ b/source_subfolder/src/libOpenImageIO/CMakeLists.txt
 @@ -139,3 +139,3 @@ target_link_libraries (OpenImageIO
              ${ILMBASE_LIBRARIES}
 -            ${OPENEXR_LIBRARIES}
 +            OpenEXR::OpenEXR
              ${OpenCV_LIBRARIES}
-diff --git a/oiio-Release-2.1.10.0/src/libutil/CMakeLists.txt b/source_subfolder/src/libutil/CMakeLists.txt
-index f5548bc..303e5ba 100644
---- a/oiio-Release-2.1.10.0/src/libutil/CMakeLists.txt
+@@ -159,4 +159,4 @@ endif()
+ 
+-if (FREETYPE_FOUND)
+-    target_link_libraries (OpenImageIO PRIVATE ${FREETYPE_LIBRARIES})
++if (TARGET Freetype::Freetype)
++    target_link_libraries (OpenImageIO PRIVATE Freetype::Freetype)
+ endif()
+diff --git a/oiio-Release-2.1.10.1/src/libutil/CMakeLists.txt b/source_subfolder/src/libutil/CMakeLists.txt
+index 7789158..1204c00 100644
+--- a/oiio-Release-2.1.10.1/src/libutil/CMakeLists.txt
 +++ b/source_subfolder/src/libutil/CMakeLists.txt
 @@ -13,3 +13,3 @@ target_link_libraries (OpenImageIO_Util
          PUBLIC
 -            ${ILMBASE_LIBRARIES}
 +            OpenEXR::OpenEXR
              ${GCC_ATOMIC_LIBRARIES}
-diff --git a/oiio-Release-2.1.10.0/src/nuke/txReader/CMakeLists.txt b/source_subfolder/src/nuke/txReader/CMakeLists.txt
+diff --git a/oiio-Release-2.1.10.1/src/nuke/txReader/CMakeLists.txt b/source_subfolder/src/nuke/txReader/CMakeLists.txt
 index 71e6313..4d62dc1 100644
---- a/oiio-Release-2.1.10.0/src/nuke/txReader/CMakeLists.txt
+--- a/oiio-Release-2.1.10.1/src/nuke/txReader/CMakeLists.txt
 +++ b/source_subfolder/src/nuke/txReader/CMakeLists.txt
 @@ -11,3 +11,3 @@ if (WIN32)
          PREFIX ""
 -        COMPILE_OPTIONS /wd4251 /W3 /O2 /MD /GL /GR /GF
 +        COMPILE_OPTIONS /wd4251 /O2 /MD /GL /GR /GF
          LINK_FLAGS "/machine:x64 /SUBSYSTEM:WINDOWS /dll")
-diff --git a/oiio-Release-2.1.10.0/src/nuke/txWriter/CMakeLists.txt b/source_subfolder/src/nuke/txWriter/CMakeLists.txt
+diff --git a/oiio-Release-2.1.10.1/src/nuke/txWriter/CMakeLists.txt b/source_subfolder/src/nuke/txWriter/CMakeLists.txt
 index 1405d63..a3b50fe 100644
---- a/oiio-Release-2.1.10.0/src/nuke/txWriter/CMakeLists.txt
+--- a/oiio-Release-2.1.10.1/src/nuke/txWriter/CMakeLists.txt
 +++ b/source_subfolder/src/nuke/txWriter/CMakeLists.txt
 @@ -14,3 +14,3 @@ if (WIN32)
          PREFIX ""

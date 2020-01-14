@@ -17,6 +17,7 @@ class OpenImageIOConan(ConanFile):
         "shared": [True, False],
         "with_webp": [True, False],
         "with_jpeg2000": [True, False],
+        "with_freetype": [True, False],
         "with_tools": [True, False]
     }
 
@@ -24,6 +25,7 @@ class OpenImageIOConan(ConanFile):
         "shared": False,
         "with_webp": True,
         "with_jpeg2000": True,
+        "with_freetype": True,
         "with_tools": True
     }
 
@@ -50,6 +52,9 @@ class OpenImageIOConan(ConanFile):
         if self.options.with_jpeg2000:
             self.requires("openjpeg/2.3.1")
 
+        if self.options.with_freetype:
+            self.requires("freetype/2.10.1")
+
     def source(self):
         tools.get(**self.conan_data["sources"][self.version])
         extracted_dir = "oiio-Release-{}".format(self.version)
@@ -71,7 +76,7 @@ class OpenImageIOConan(ConanFile):
         cmake.definitions["INSTALL_FONTS"] = False
         cmake.definitions["USE_PYTHON"] = False
 
-        cmake.definitions["USE_FREETYPE"] = False
+        cmake.definitions["USE_FREETYPE"] = self.options.with_freetype
         cmake.definitions["USE_HDF5"] = False
         cmake.definitions["USE_OPENCOLORIO"] = False
         cmake.definitions["USE_OPENCV"] = False
