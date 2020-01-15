@@ -74,7 +74,7 @@ index 9e54f67..c2545b6 100644
 +macro (_DISABLED_oiio_add_tests)
      cmake_parse_arguments (_ats "" "" "URL;IMAGEDIR;LABEL;FOUNDVAR;TESTNAME" ${ARGN})
 diff --git a/oiio-Release-2.1.10.1/src/libOpenImageIO/CMakeLists.txt b/source_subfolder/src/libOpenImageIO/CMakeLists.txt
-index e4d3616..c278515 100644
+index e4d3616..cf602e4 100644
 --- a/oiio-Release-2.1.10.1/src/libOpenImageIO/CMakeLists.txt
 +++ b/source_subfolder/src/libOpenImageIO/CMakeLists.txt
 @@ -139,3 +139,3 @@ target_link_libraries (OpenImageIO
@@ -82,6 +82,11 @@ index e4d3616..c278515 100644
 -            ${OPENEXR_LIBRARIES}
 +            OpenEXR::OpenEXR
              ${OpenCV_LIBRARIES}
+@@ -145,3 +145,3 @@ target_link_libraries (OpenImageIO
+             ${format_plugin_libs} # Add all the target link libraries from the plugins
+-            ${OPENCOLORIO_LIBRARIES}
++            OpenColorIO::OpenColorIO
+             ${BZIP2_LIBRARIES}
 @@ -159,4 +159,4 @@ endif()
  
 -if (FREETYPE_FOUND)

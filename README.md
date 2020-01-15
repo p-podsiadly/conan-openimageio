@@ -42,13 +42,14 @@ The following command both runs all the steps of the conan file, and publishes t
 
 
 ### Available Options
-| Option        | Default           | Possible Values |
-| ------------- |:----------------- |:---------------:|
-| shared        | False             | [True, False]   |
-| with_tools    | True              | [True, False]   |
-| with_webp     | True              | [True, False]   |
-| with_jpeg2000 | True              | [True, False]   |
-| with_freetype | True              | [True, False]   |
+| Option           | Default           | Possible Values |
+| -------------    |:----------------- |:---------------:|
+| shared           | False             | [True, False]   |
+| with_tools       | True              | [True, False]   |
+| with_webp        | True              | [True, False]   |
+| with_jpeg2000    | True              | [True, False]   |
+| with_freetype    | True              | [True, False]   |
+| with_opencolorio | True              | [True, False]   |
 
 
 ## Conan Recipe License
