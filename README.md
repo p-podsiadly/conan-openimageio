@@ -8,7 +8,7 @@
 
 OpenImageIO is a library for reading and writing images, and a bunch of related classes, utilities, and applications.
 
-The packages generated with this **conanfile** can be found on [Bintray](https://bintray.com/ppodsiadly/conan/openimageio%3Aconan).
+The packages generated with this **conanfile** can be found on [Bintray](https://bintray.com/ppodsiadly/conan/openimageio%3Appodsiadly).
 
 
 ## For Users
