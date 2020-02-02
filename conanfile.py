@@ -4,7 +4,7 @@ import os
 class OpenImageIOConan(ConanFile):
 
     name = "openimageio"
-    version = "2.1.10.1"
+    version = "2.1.11.0"
     description = "OpenImageIO is a library for reading and writing images, and a bunch of related classes, utilities, and applications."
     topics = ["graphics", "images", "vfx"]
     url = "https://github.com/p-podsiadly/conan-openimageio"
@@ -34,7 +34,7 @@ class OpenImageIOConan(ConanFile):
     generators = "cmake", "cmake_find_package"
 
     requires = [
-        "boost/1.71.0",
+        "boost/1.72.0",
         "tsl-robin-map/0.6.1@tessil/stable",
         "openexr/2.4.0",
         "libtiff/4.0.9",

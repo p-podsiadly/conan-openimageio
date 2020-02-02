@@ -5,7 +5,11 @@ sources:
   "2.1.10.1":
     url: "https://github.com/OpenImageIO/oiio/archive/Release-2.1.10.1.tar.gz"
     sha256: "640e40b559a59129c14a980cec75668c857b09639fade09395e0824a634b6956"
+  "2.1.11.0":
+    url: "https://github.com/OpenImageIO/oiio/archive/Release-2.1.11.0.tar.gz"
+    sha256: "44715bef0285cd993908b870901016ed34b86ee337573710f257a30dc4c8c777"
 
 patches:
   "2.1.10.0": "oiio-2.1.10.0.patch"
   "2.1.10.1": "oiio-2.1.10.1.patch"
+  "2.1.11.0": "oiio-2.1.11.0.patch"
