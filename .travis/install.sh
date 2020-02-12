@@ -12,4 +12,3 @@ pip3 install conan --upgrade
 pip3 install conan_package_tools bincrafters_package_tools
 
 conan user
-conan remote add ppodsiadly https://api.bintray.com/conan/ppodsiadly/conan
