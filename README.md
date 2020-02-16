@@ -15,14 +15,14 @@ The packages generated with this **conanfile** can be found on [Bintray](https:/
 
 ### Basic setup
 
-    $ conan install openimageio/2.1.10.1@ppodsiadly/testing
+    $ conan install openimageio/2.1.11.2@ppodsiadly/testing
 
 ### Project setup
 
 If you handle multiple dependencies in your project is better to add a *conanfile.txt*
 
     [requires]
-    openimageio/2.1.10.1@ppodsiadly/testing
+    openimageio/2.1.11.2@ppodsiadly/testing
 
     [generators]
     cmake
