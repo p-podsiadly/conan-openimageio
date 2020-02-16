@@ -3,6 +3,7 @@ build: false
 environment:
     PYTHON_HOME: "C:\\Python37"
     CONAN_USERNAME: "ppodsiadly"
+    CONAN_LOGIN_USERNAME: "ppodsiadly"
     CONAN_UPLOAD: "https://api.bintray.com/conan/ppodsiadly/conan"
 
     matrix:
