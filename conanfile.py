@@ -35,7 +35,7 @@ class OpenImageIOConan(ConanFile):
 
     requires = [
         "boost/1.72.0",
-        "tsl-robin-map/0.6.1@tessil/stable",
+        "tsl-robin-map/0.6.2@tessil/stable",
         "openexr/2.4.0",
         "libtiff/4.0.9",
         "libpng/1.6.37",
