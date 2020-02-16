@@ -28,7 +28,7 @@ class OpenImageIOConan(ConanFile):
         "with_jpeg2000": True,
         "with_freetype": True,
         "with_opencolorio": True,
-        "with_tools": True
+        "with_tools": False
     }
 
     generators = "cmake", "cmake_find_package"
